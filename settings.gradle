@@ -1,0 +1,2 @@
+rootProject.name='gee301_app_active'
+include ':app'
