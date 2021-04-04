@@ -1,5 +1,7 @@
 package com.example.gee301_app_active;
 
+import org.json.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
