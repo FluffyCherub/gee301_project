@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Boolean loggedIn = false;
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         else if(id == R.id.activity_login){
             Intent login_intent = new Intent(this, login_activity.class);
             startActivity(login_intent);
+            return true;
+        }
+        else if(id == R.id.activity_signup){
+            Intent signup_intent = new Intent(this, SignUp.class);
+            startActivity(signup_intent);
             return true;
         }
 
