@@ -5,9 +5,6 @@
         android:id="@+id/activity_login"
         android:title="@string/login_details" />
     <item
-        android:id="@+id/activity_signup"
-        android:title="@string/sign" />
-    <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings" />
 </menu>

@@ -36,4 +36,5 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="sign">Sign-up for an account</string>
+    <string name="FirstData">Your Current Data</string>
 </resources>

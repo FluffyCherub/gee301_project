@@ -32,15 +32,6 @@
             android:value="false" />
 
         <activity
-            android:name=".SignUp"
-            android:label="@string/title_activity_sign_up">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".settings"
             android:label="@string/title_activity_settings" />
         <activity android:name=".login_activity" />

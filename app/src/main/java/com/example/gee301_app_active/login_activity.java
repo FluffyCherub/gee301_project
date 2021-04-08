@@ -1,6 +1,9 @@
 package com.example.gee301_app_active;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +30,8 @@ public class login_activity extends AppCompatActivity {
                 TextView auth_id_view = findViewById(R.id.auth_id);
                 TextView auth_secret_view = findViewById(R.id.auth_secret);
 
-                String auth_id = auth_id_view.getText().toString();
-                String auth_secret = auth_secret_view.getText().toString();
+                final String auth_id = auth_id_view.getText().toString();
+                final String auth_secret = auth_secret_view.getText().toString();
 
                 JSONObject postData = new JSONObject();
                 try {
@@ -62,10 +65,16 @@ public class login_activity extends AppCompatActivity {
                                 public void run() {
                                     if(cS.status == true && cS.ResponseCode == 200){
                                         Snackbar.make(login_view, "Success!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                        Context context = login_activity.this;
+                                        SharedPreferences prefs = context.getSharedPreferences(
+                                                "Userdata", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putString("auth_id", auth_id);
+                                        editor.putString("auth_key", auth_secret);
+                                        editor.apply();
+
                                         TextView login_status = (TextView) findViewById(R.id.login_status);
-
                                         login_status.setText("Login Succeeded");
-
                                     }
                                     else{
                                         Snackbar.make(login_view, "Failed!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
