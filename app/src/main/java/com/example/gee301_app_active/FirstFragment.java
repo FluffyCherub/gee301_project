@@ -49,17 +49,17 @@ public class FirstFragment extends Fragment {
             try {
                 //postData.put("auth_id", auth_id);
                 //postData.put("auth_key", auth_key);
-                postData.put("userid", "G-HdhqYGX7OQIL8hD2F2");
+                //postData.put("userid", "If44ITk5TGdJ52YO6POT"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
                 //postData.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
-                postData.put("part", "Temperature");
+                //postData.put("part", "Temperature");
 
-                final connect cS = new connect("https://medicap.auburnhr.com/user/info", "GET", postData.toString());
+                final connectAlt cS = new connectAlt("https://medicap.auburnhr.com/data", "GET", "");
                 final Thread cS_worker = new Thread(cS);
 
                 final Snackbar connecting = Snackbar.make(view, "Connecting... ", Snackbar.LENGTH_LONG).setAction("Action", null);
                 new Thread(){
                     public void run(){
-                        TextView first = (TextView) view.findViewById(R.id.textview_first);
+                        //TextView first = (TextView) view.findViewById(R.id.textview_first);
                         connecting.show();
                         try{
                             cS_worker.start();
