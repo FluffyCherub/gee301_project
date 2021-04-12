@@ -47,13 +47,13 @@ public class FirstFragment extends Fragment {
         if (!"Null".equals(auth_id) && !"Null".equals(auth_key)){
             JSONObject postData = new JSONObject();
             try {
-                //postData.put("auth_id", auth_id);
-                //postData.put("auth_key", auth_key);
-                //postData.put("userid", "If44ITk5TGdJ52YO6POT"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+                //postData.put("auth_id", "main");
+                //postData.put("auth_key", "bigsecret");
+                //postData.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
                 //postData.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
-                //postData.put("part", "Temperature");
+                //postData.put("part", "*");
 
-                final connectAlt cS = new connectAlt("https://medicap.auburnhr.com/data", "GET", "");
+                final connect cS = new connect("https://medicap.auburnhr.com/logs", "GET", postData.toString());
                 final Thread cS_worker = new Thread(cS);
 
                 final Snackbar connecting = Snackbar.make(view, "Connecting... ", Snackbar.LENGTH_LONG).setAction("Action", null);
