@@ -46,12 +46,12 @@ public class connectAlt implements Runnable {
             auth_req.put("part", "");
             con.setRequestProperty("auth_req", auth_req.toString());*/
 
-
+            /*
             con.setRequestProperty("auth_id","main");
             con.setRequestProperty("auth_key","bigsecret");
             con.setRequestProperty("userid","G-HdhqYGX7OQIL8hD2F2");
             con.setRequestProperty("usersecret","sUHaG0aaA3aXIiv2KxDBVWp51");
-            con.setRequestProperty("part","");
+            con.setRequestProperty("part",""); */
 
             //  "auth_id": "main",
             //    "auth_key": "bigsecret",

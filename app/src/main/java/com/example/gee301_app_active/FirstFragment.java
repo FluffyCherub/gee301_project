@@ -96,8 +96,10 @@ public class FirstFragment extends Fragment {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     try {
                                         // get JSONObject from JSON file
+
                                         String body = cS.ResponseBody.get(0);
                                         JSONObject obj = new JSONObject(body);
                                         // get names
@@ -123,7 +125,7 @@ public class FirstFragment extends Fragment {
                                     first.setText("Hello Guest!!!");
                                 }
                             });
-                            System.out.println("Hello Guest!!!");
+                            System.out.println("Hello Guest!!! Status and code:"+ cS.status + +cS.ResponseCode);
                         }
 
                     }

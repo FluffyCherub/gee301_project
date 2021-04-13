@@ -42,7 +42,7 @@ public class login_activity extends AppCompatActivity {
                     postData.put("auth_id", auth_id);
                     postData.put("auth_key", auth_secret);
 
-                    final connect cS = new connect("https://medicap.auburnhr.com/validatelogin", "POST", postData.toString());
+                    final connectAlt cS = new connectAlt("https://medicap.auburnhr.com/validatelogin", "POST", postData.toString());
                     final Thread cS_worker = new Thread(cS);
 
                     final View login_view = findViewById(R.id.login_ui);
@@ -86,6 +86,7 @@ public class login_activity extends AppCompatActivity {
                                         Snackbar.make(login_view, "Failed!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                                         TextView login_status = (TextView) findViewById(R.id.login_status);
                                         login_status.setText("Login Failed");
+                                        System.out.println("Status: " + cS.status+ "Response Code:" + cS.ResponseCode);
                                     }
                                 }
                             });

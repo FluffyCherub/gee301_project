@@ -39,4 +39,5 @@
     <string name="FirstData">Your Current Data</string>
     <string name="third_fragment_label">Third Fragment</string>
     <string name="greeting">Hello Guest!</string>
+    <string name="user_setting">Hello</string>
 </resources>
