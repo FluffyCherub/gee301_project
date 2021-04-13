@@ -29,9 +29,13 @@ public class login_activity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView auth_id_view = findViewById(R.id.auth_id);
                 TextView auth_secret_view = findViewById(R.id.auth_secret);
+                TextView userid_view = findViewById(R.id.userid);
+                TextView usersecret_view = findViewById(R.id.usersecret);
 
                 final String auth_id = auth_id_view.getText().toString();
                 final String auth_secret = auth_secret_view.getText().toString();
+                final String userid = userid_view.getText().toString();
+                final String usersecret = usersecret_view.getText().toString();
 
                 JSONObject postData = new JSONObject();
                 try {
@@ -71,6 +75,8 @@ public class login_activity extends AppCompatActivity {
                                         SharedPreferences.Editor editor = prefs.edit();
                                         editor.putString("auth_id", auth_id);
                                         editor.putString("auth_key", auth_secret);
+                                        editor.putString("userid", userid);
+                                        editor.putString("usersecret", usersecret);
                                         editor.apply();
 
                                         TextView login_status = (TextView) findViewById(R.id.login_status);

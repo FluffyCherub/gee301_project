@@ -2,10 +2,13 @@ package com.example.gee301_app_active;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -14,6 +17,7 @@ public class connect implements Runnable {
     int ResponseCode;
     String ResponseMessage;
     boolean status;
+    ArrayList<String> ResponseBody = new ArrayList<String>();;
 
     @Override
     public void run() {
@@ -31,6 +35,7 @@ public class connect implements Runnable {
         try {
             java.net.URL url = new java.net.URL(URL);
             con = (HttpsURLConnection) url.openConnection();
+            //con.setRequestMethod("GET");
             con.setRequestMethod(METHOD);
             con.setRequestProperty("Content-Type","application/json");
             con.setRequestProperty("User-Agent", "PrivateConnection");
@@ -50,6 +55,24 @@ public class connect implements Runnable {
             this.ResponseCode =  con.getResponseCode();
             this.ResponseMessage = con.getResponseMessage();
             this.status = true;
+
+            BufferedReader br = null;
+            if (con.getResponseCode() == 200) {
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String strCurrentLine;
+                while ((strCurrentLine = br.readLine()) != null) {
+                    //System.out.println(strCurrentLine);
+                    ResponseBody.add(strCurrentLine);
+                }
+            } else {
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String strCurrentLine;
+                while ((strCurrentLine = br.readLine()) != null) {
+                    //System.out.println(strCurrentLine);
+                    ResponseBody.add(strCurrentLine);
+                }
+            }
+
             con.disconnect();
 
         }

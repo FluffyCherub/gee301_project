@@ -15,6 +15,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
+import org.json.simple.parser.*;
+// import org.json.simple.*;
+import org.json.*;
 
 public class FirstFragment extends Fragment {
     @Override
@@ -42,24 +45,38 @@ public class FirstFragment extends Fragment {
                 "Userdata", Context.MODE_PRIVATE);
         final String auth_id = prefs.getString("auth_id", "Null");
         final String auth_key = prefs.getString("auth_key", "Null");
+        final String userid = prefs.getString("userid", "Null");
+        final String usersecret = prefs.getString("usersecret", "Null");
 
 
         if (!"Null".equals(auth_id) && !"Null".equals(auth_key)){
             JSONObject postData = new JSONObject();
             try {
-                //postData.put("auth_id", "main");
-                //postData.put("auth_key", "bigsecret");
-                //postData.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
-                //postData.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
-                //postData.put("part", "*");
+                // Assign values to data that will be sent
+                postData.put("auth_id", auth_id);
+                postData.put("auth_key", auth_key);
+                postData.put("userid", userid); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+                postData.put("usersecret", usersecret);
 
-                final connect cS = new connect("https://medicap.auburnhr.com/logs", "GET", postData.toString());
+                /*
+                {"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sYHaG0aaA3aXIiv2KxDBVWp51","part":""}
+                postData.put("auth_id", "main");
+                postData.put("auth_key", "bigsecret");
+                postData.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+                postData.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
+                //postData.put("auth_req", auth_req);*/
+
+                postData.put("part", "");
+
+                //String message = "{\"auth_id\":\"main\",\"auth_key\":\"bigsecret\",\"userid\":\"G-HdhqYGX7OQIL8hD2F2\",\"usersecret\":\"sUHaG0aaA3aXIiv2KxDBVWp51\",\"part\":\"\" }";
+
+                final connect cS = new connect("https://medicap.auburnhr.com/user/info", "POST", postData.toString());
                 final Thread cS_worker = new Thread(cS);
 
                 final Snackbar connecting = Snackbar.make(view, "Connecting... ", Snackbar.LENGTH_LONG).setAction("Action", null);
                 new Thread(){
                     public void run(){
-                        //TextView first = (TextView) view.findViewById(R.id.textview_first);
+                        final TextView first = (TextView) view.findViewById(R.id.textview_first);
                         connecting.show();
                         try{
                             cS_worker.start();
@@ -70,20 +87,43 @@ public class FirstFragment extends Fragment {
                             e.printStackTrace(System.out);
                         }
                         connecting.dismiss();
+
+                        if(cS.ResponseCode == 200){
+                            System.out.println("YEET");
+                        }
+
                         if(cS.status == true && cS.ResponseCode == 200){
-                            /*runOnUiThread(new Runnable() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        // get JSONObject from JSON file
+                                        String body = cS.ResponseBody.get(0);
+                                        JSONObject obj = new JSONObject(body);
+                                        // get names
+                                        String firstname = obj.getString("firstname");
+                                        String lastname = obj.getString("lastname");
+                                        // set name in TextView's
+                                        first.setText("Hello, "+firstname+ " "+lastname+".");
+                                        System.out.println("Data Retrieved!");
+                                        System.out.println("Data: "+cS.ResponseBody);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
+
+                        }
+                        else{
+                            getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     // Stuff that updates the UI
+                                    first.setText("Hello Guest!!!");
                                 }
-                            });*/
-                            System.out.println("Data: "+cS.ResponseMessage);
-                            //first.setText("Data retrieved.");
-                            //first.setText("Data: "+cS.ResponseMessage);
-                        }
-                        else{
-                            System.out.println("Data retrieval failed.");
-                            //first.setText("Data retrieval failed.");
+                            });
+                            System.out.println("Hello Guest!!!");
                         }
 
                     }

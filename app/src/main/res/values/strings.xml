@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GEE301_TestConnections</string>
+    <string name="app_name">GEE301 Health App</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -38,4 +38,5 @@
     <string name="sign">Sign-up for an account</string>
     <string name="FirstData">Your Current Data</string>
     <string name="third_fragment_label">Third Fragment</string>
+    <string name="greeting">Hello Guest!</string>
 </resources>
