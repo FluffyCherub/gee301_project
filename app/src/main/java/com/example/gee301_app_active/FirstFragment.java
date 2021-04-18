@@ -19,6 +19,8 @@ import org.json.simple.parser.*;
 // import org.json.simple.*;
 import org.json.*;
 
+import java.util.Hashtable;
+
 public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class FirstFragment extends Fragment {
         });
 
         Context context = getActivity();
+
+
         SharedPreferences prefs = context.getSharedPreferences(
                 "Userdata", Context.MODE_PRIVATE);
         final String auth_id = prefs.getString("auth_id", "Null");
@@ -48,6 +52,8 @@ public class FirstFragment extends Fragment {
         final String userid = prefs.getString("userid", "Null");
         final String usersecret = prefs.getString("usersecret", "Null");
 
+        //UserDetails ud = new UserDetails(auth_id,auth_key,userid,usersecret);
+        //System.out.println("First Name: "+ud.toString());
 
         if (!"Null".equals(auth_id) && !"Null".equals(auth_key)){
             JSONObject postUserInfo = new JSONObject();
@@ -58,8 +64,7 @@ public class FirstFragment extends Fragment {
                 postUserInfo.put("userid", userid); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
                 postUserInfo.put("usersecret", usersecret);
 
-                /*
-                {"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sYHaG0aaA3aXIiv2KxDBVWp51","part":""}
+                /*{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sYHaG0aaA3aXIiv2KxDBVWp51","part":""}
                 postData.put("auth_id", "main");
                 postData.put("auth_key", "bigsecret");
                 postData.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
@@ -67,8 +72,6 @@ public class FirstFragment extends Fragment {
                 //postData.put("auth_req", auth_req);*/
 
                 postUserInfo.put("part", "");
-
-                //String message = "{\"auth_id\":\"main\",\"auth_key\":\"bigsecret\",\"userid\":\"G-HdhqYGX7OQIL8hD2F2\",\"usersecret\":\"sUHaG0aaA3aXIiv2KxDBVWp51\",\"part\":\"\" }";
 
                 final connect cS = new connect("https://medicap.auburnhr.com/user/info", "POST", postUserInfo.toString());
                 final Thread cS_worker = new Thread(cS);
@@ -96,10 +99,8 @@ public class FirstFragment extends Fragment {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     try {
                                         // get JSONObject from JSON file
-
                                         String body = cS.ResponseBody.get(0);
                                         JSONObject obj = new JSONObject(body);
                                         // get names
@@ -136,8 +137,8 @@ public class FirstFragment extends Fragment {
                 System.out.println("GENERAL EXCEPTION");
                 e.printStackTrace(System.out);
             }
-
-
+            // -------------------------------------------------    Retrieving data     ----------------------------------------------------------- //
+            // Getting data for user
             JSONObject postData = new JSONObject();
             try {
                 // Assign values to data that will be sent
@@ -165,26 +166,41 @@ public class FirstFragment extends Fragment {
                         connecting.dismiss();
 
                         if(cS.status == true && cS.ResponseCode == 200){
+
+                            try {
+                                Hashtable<String, String> temperature = new Hashtable<String, String>();
+                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
+                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
+                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
+                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
+                                //System.out.println("Data Retrieved!");
+                                //System.out.println("Data: "+cS.ResponseBody);
+                                JSONObject obj = new JSONObject(cS.ResponseBody.get(0));
+                                JSONArray dataArray = obj.getJSONArray("result");
+                                for (int i = 0; i < dataArray.length(); i++) {
+                                    JSONObject resultData = dataArray.getJSONObject(i);
+                                    //System.out.println("Data: "+resultData);
+                                    JSONObject data = resultData.getJSONObject("data");
+
+                                    String date = resultData.getString("date_added");
+                                    System.out.println("Data Collected: "+data+"Time: "+date);
+                                    try {
+                                        String temp = data.getString("Temperature");
+                                        temperature.put(date, temp);
+                                        System.out.println("Temperature: "+temp+". Date: "+date);
+                                    } catch (JSONException e) {
+                                        //e.printStackTrace();
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            /*
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        // get JSONObject from JSON file
-                                        String body = cS.ResponseBody.get(0);
-                                        JSONObject obj = new JSONObject(body);
-                                        // get names
-                                        // String firstname = obj.getString("firstname");
-                                        // String lastname = obj.getString("lastname");
-                                        // set name in TextView's
-                                        first.setText(body);
-                                        System.out.println("Data Retrieved!");
-                                        System.out.println("Data: "+cS.ResponseBody);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
                                 }
-                            });
+                            }); */
 
                         }
                         else{
