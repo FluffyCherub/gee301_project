@@ -1,4 +1,4 @@
-package com.example.gee301_app_active.fragments;
+package com.example.gee301_app_active;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-
-import com.example.gee301_app_active.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import com.bottomnavigationview.R;
 
 /**

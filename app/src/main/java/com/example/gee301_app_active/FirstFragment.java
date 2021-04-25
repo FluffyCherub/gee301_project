@@ -19,7 +19,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONObject;
-import org.json.simple.parser.*;
 // import org.json.simple.*;
 import org.json.*;
 
