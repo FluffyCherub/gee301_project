@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONObject;
 import org.json.simple.parser.*;
@@ -42,9 +46,7 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        Context context = getActivity();
-
-
+        final Context context = getActivity();
         SharedPreferences prefs = context.getSharedPreferences(
                 "Userdata", Context.MODE_PRIVATE);
         final String auth_id = prefs.getString("auth_id", "Null");
@@ -61,14 +63,15 @@ public class FirstFragment extends Fragment {
                 // Assign values to data that will be sent
                 postUserInfo.put("auth_id", auth_id);
                 postUserInfo.put("auth_key", auth_key);
-                postUserInfo.put("userid", userid); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+                postUserInfo.put("userid", userid);
                 postUserInfo.put("usersecret", usersecret);
 
-                /*{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sYHaG0aaA3aXIiv2KxDBVWp51","part":""}
-                postData.put("auth_id", "main");
-                postData.put("auth_key", "bigsecret");
-                postData.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
-                postData.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
+                //{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sUHaG0aaA3aXIiv2KxDBCWp51"}
+                /*{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sUHaG0aaA3aXIiv2KxDBVWp51"}
+                postUserInfo.put("auth_id", "main");
+                postUserInfo.put("auth_key", "bigsecret");
+                postUserInfo.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+                postUserInfo.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
                 //postData.put("auth_req", auth_req);*/
 
                 postUserInfo.put("part", "");
@@ -137,6 +140,7 @@ public class FirstFragment extends Fragment {
                 System.out.println("GENERAL EXCEPTION");
                 e.printStackTrace(System.out);
             }
+
             // -------------------------------------------------    Retrieving data     ----------------------------------------------------------- //
             // Getting data for user
             JSONObject postData = new JSONObject();
@@ -154,6 +158,8 @@ public class FirstFragment extends Fragment {
                 new Thread(){
                     public void run(){
                         final TextView first = (TextView) view.findViewById(R.id.textview_first);
+                        final GraphView graph = (GraphView) view.findViewById(R.id.graph);
+
                         connecting.show();
                         try{
                             cS_worker.start();
@@ -169,10 +175,16 @@ public class FirstFragment extends Fragment {
 
                             try {
                                 Hashtable<String, String> temperature = new Hashtable<String, String>();
-                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
-                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
-                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
-                                //Hashtable<String, String> temperature = new Hashtable<String, String>();
+
+                                /*
+                                Hashtable<String, String> pressure = new Hashtable<String, String>();
+                                Hashtable<String, String> humidity = new Hashtable<String, String>();
+                                Hashtable<String, String> oxidised = new Hashtable<String, String>();
+                                Hashtable<String, String> reduced = new Hashtable<String, String>();
+                                Hashtable<String, String> nh3 = new Hashtable<String, String>();
+                                Hashtable<String, String> heartRate = new Hashtable<String, String>();
+                                Hashtable<String, String> movement = new Hashtable<String, String>();*/
+
                                 //System.out.println("Data Retrieved!");
                                 //System.out.println("Data: "+cS.ResponseBody);
                                 JSONObject obj = new JSONObject(cS.ResponseBody.get(0));
@@ -187,7 +199,40 @@ public class FirstFragment extends Fragment {
                                     try {
                                         String temp = data.getString("Temperature");
                                         temperature.put(date, temp);
-                                        System.out.println("Temperature: "+temp+". Date: "+date);
+                                        /*String pres = data.getString("Pressure");
+                                        pressure.put(date, pres);
+                                        String humi = data.getString("Humidity");
+                                        humidity.put(date, humi);
+                                        String oxid = data.getString("Oxidised");
+                                        oxidised.put(date, oxid);
+                                        String redu = data.getString("Reduced");
+                                        reduced.put(date, redu);
+                                        String nh = data.getString("NH3");
+                                        nh3.put(date, nh);
+                                        String hr = data.getString("HR");
+                                        String hr2 = data.getString("heartRate");
+                                        heartRate.put(date, hr);
+                                        heartRate.put(date, hr2);
+                                        String move = data.getString("movement");
+                                        movement.put(date, move);*/
+
+                                        //System.out.println(temperature);
+                                        //System.out.println("Temperature: "+temp+". Date: "+date);
+
+                                        try {
+                                            graph.setVisibility(View.VISIBLE);
+                                            LineGraphSeries <DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                                                    new DataPoint(0, 1),
+                                                    new DataPoint(12, 6)
+                                                    //new DataPoint(Integer.valueOf(firstInput_1), Integer.valueOf(secondInput_1)),
+                                                    //new DataPoint(Integer.valueOf(firstInput_2), Integer.valueOf(secondInput_2)),
+                                                    //new DataPoint(Integer.valueOf(firstInput_3), Integer.valueOf(secondInput_3)),
+                                                    //new DataPoint(Integer.valueOf(firstInput_4), Integer.valueOf(secondInput_4))
+                                            });
+                                            graph.addSeries(series);
+                                        } catch (IllegalArgumentException e) {
+                                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     } catch (JSONException e) {
                                         //e.printStackTrace();
                                     }

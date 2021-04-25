@@ -4,9 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import com.example.gee301_app_active.fragments.HomeFragment;
+import com.example.gee301_app_active.fragments.NotificationFragment;
+import com.example.gee301_app_active.fragments.SmsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,12 +25,17 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        openFragment(HomeFragment.newInstance("", ""));
 
         /*
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -33,6 +47,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
     }
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        openFragment(HomeFragment.newInstance("", ""));
+                        return true;
+                    case R.id.navigation_sms:
+                        openFragment(SmsFragment.newInstance("", ""));
+                        return true;
+                    case R.id.navigation_notifications:
+                        openFragment(NotificationFragment.newInstance("", ""));
+                        return true;
+                }
+                return false;
+            }
+        };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
