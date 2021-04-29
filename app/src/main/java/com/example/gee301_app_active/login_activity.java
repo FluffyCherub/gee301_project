@@ -1,10 +1,10 @@
 package com.example.gee301_app_active;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.example.gee301_app_active.connect;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -42,7 +42,7 @@ public class login_activity extends AppCompatActivity {
                     postData.put("auth_id", auth_id);
                     postData.put("auth_key", auth_secret);
 
-                    final connectAlt cS = new connectAlt("https://medicap.auburnhr.com/validatelogin", "POST", postData.toString());
+                    final connect cS = new connect("https://medicap.auburnhr.com/validatelogin", "POST", postData.toString());
                     final Thread cS_worker = new Thread(cS);
 
                     final View login_view = findViewById(R.id.login_ui);

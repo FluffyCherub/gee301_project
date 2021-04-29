@@ -23,16 +23,16 @@ public class settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        /*
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings, new SettingsFragment())
+                .replace(R.id.settings_ui, new SettingsFragment())
                 .commit();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        }*/
 
-        System.out.println("runs in body");
         //Context context = getActivity();
         SharedPreferences prefs = this.getSharedPreferences(
                 "Userdata", Context.MODE_PRIVATE);
@@ -130,11 +130,11 @@ public class settings extends AppCompatActivity {
             }
         }
         }
-
+        /*
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
-    }
+    }*/
 }

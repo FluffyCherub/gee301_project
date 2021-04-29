@@ -79,22 +79,12 @@ public class HomeFragment extends Fragment {
     //return inflater.inflate(R.layout.fragment_home, container, false);
     View view =  inflater.inflate(R.layout.fragment_home, container, false);
     TextView first = (TextView) view.findViewById(R.id.textview_first);
-    System.out.println("Start Test");
+    System.out.println("Start Test for Home Fragment");
     return view;
   }
 
   public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
-
-    /*
-    view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        NavHostFragment.findNavController(HomeFragment.this)
-                .navigate(R.id.action_FirstFragment_to_SecondFragment);
-      }
-    });*/
 
     final Context context = getActivity();
     SharedPreferences prefs = context.getSharedPreferences(
@@ -117,12 +107,12 @@ public class HomeFragment extends Fragment {
         postUserInfo.put("usersecret", usersecret);
 
         //{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sUHaG0aaA3aXIiv2KxDBCWp51"}
-                /*{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sUHaG0aaA3aXIiv2KxDBVWp51"}
-                postUserInfo.put("auth_id", "main");
-                postUserInfo.put("auth_key", "bigsecret");
-                postUserInfo.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
-                postUserInfo.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
-                //postData.put("auth_req", auth_req);*/
+        /*{"auth_id":"main","auth_key":"bigsecret","userid":"G-HdhqYGX7OQIL8hD2F2","usersecret":"sUHaG0aaA3aXIiv2KxDBVWp51"}
+        postUserInfo.put("auth_id", "main");
+        postUserInfo.put("auth_key", "bigsecret");
+        postUserInfo.put("userid", "G-HdhqYGX7OQIL8hD2F2"); // If44ITk5TGdJ52YO6POT //G-HdhqYGX7OQIL8hD2F2
+        postUserInfo.put("usersecret", "sUHaG0aaA3aXIiv2KxDBVWp51"); //postData.toString()
+        //postData.put("auth_req", auth_req);*/
 
         postUserInfo.put("part", "");
 
@@ -157,10 +147,10 @@ public class HomeFragment extends Fragment {
                     String body = cS.ResponseBody.get(0);
                     JSONObject obj = new JSONObject(body);
                     // get names
-                    String firstname = obj.getString("firstname");
-                    String lastname = obj.getString("lastname");
+                    //String firstname = obj.getString("firstname");
+                    //String lastname = obj.getString("lastname");
                     // set name in TextView's
-                    first.setText("Hello, "+firstname+ " "+lastname+".");
+                    //first.setText("Hello, "+lastname+".");
                     System.out.println("Data Retrieved!");
                     System.out.println("Data: "+cS.ResponseBody);
                   } catch (JSONException e) {
@@ -208,7 +198,9 @@ public class HomeFragment extends Fragment {
         new Thread(){
           public void run(){
             final TextView first = (TextView) view.findViewById(R.id.textview_first);
-            final GraphView graph = (GraphView) view.findViewById(R.id.graph);
+            //final GraphView graph = (GraphView) view.findViewById(R.id.graph);
+            /*LineGraphSeries <DataPoint> series = new LineGraphSeries<>();
+            graph.addSeries(series); */
 
             connecting.show();
             try{
@@ -226,14 +218,14 @@ public class HomeFragment extends Fragment {
               try {
                 Hashtable<String, String> temperature = new Hashtable<String, String>();
 
-                                /*
-                                Hashtable<String, String> pressure = new Hashtable<String, String>();
-                                Hashtable<String, String> humidity = new Hashtable<String, String>();
-                                Hashtable<String, String> oxidised = new Hashtable<String, String>();
-                                Hashtable<String, String> reduced = new Hashtable<String, String>();
-                                Hashtable<String, String> nh3 = new Hashtable<String, String>();
-                                Hashtable<String, String> heartRate = new Hashtable<String, String>();
-                                Hashtable<String, String> movement = new Hashtable<String, String>();*/
+                /*
+                Hashtable<String, String> pressure = new Hashtable<String, String>();
+                Hashtable<String, String> humidity = new Hashtable<String, String>();
+                Hashtable<String, String> oxidised = new Hashtable<String, String>();
+                Hashtable<String, String> reduced = new Hashtable<String, String>();
+                Hashtable<String, String> nh3 = new Hashtable<String, String>();
+                Hashtable<String, String> heartRate = new Hashtable<String, String>();
+                Hashtable<String, String> movement = new Hashtable<String, String>();*/
 
                 //System.out.println("Data Retrieved!");
                 //System.out.println("Data: "+cS.ResponseBody);
@@ -249,39 +241,41 @@ public class HomeFragment extends Fragment {
                   try {
                     String temp = data.getString("Temperature");
                     temperature.put(date, temp);
-                                        /*String pres = data.getString("Pressure");
-                                        pressure.put(date, pres);
-                                        String humi = data.getString("Humidity");
-                                        humidity.put(date, humi);
-                                        String oxid = data.getString("Oxidised");
-                                        oxidised.put(date, oxid);
-                                        String redu = data.getString("Reduced");
-                                        reduced.put(date, redu);
-                                        String nh = data.getString("NH3");
-                                        nh3.put(date, nh);
-                                        String hr = data.getString("HR");
-                                        String hr2 = data.getString("heartRate");
-                                        heartRate.put(date, hr);
-                                        heartRate.put(date, hr2);
-                                        String move = data.getString("movement");
-                                        movement.put(date, move);*/
+                    /*String pres = data.getString("Pressure");
+                    pressure.put(date, pres);
+                    String humi = data.getString("Humidity");
+                    humidity.put(date, humi);
+                    String oxid = data.getString("Oxidised");
+                    oxidised.put(date, oxid);
+                    String redu = data.getString("Reduced");
+                    reduced.put(date, redu);
+                    String nh = data.getString("NH3");
+                    nh3.put(date, nh);
+                    String hr = data.getString("HR");
+                    String hr2 = data.getString("heartRate");
+                    heartRate.put(date, hr);
+                    heartRate.put(date, hr2);
+                    String move = data.getString("movement");
+                    movement.put(date, move);*/
 
                     //System.out.println(temperature);
                     //System.out.println("Temperature: "+temp+". Date: "+date);
 
                     try {
+                      /*
                       graph.setVisibility(View.VISIBLE);
                       LineGraphSeries <DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                              new DataPoint(0, 1),
+                              new DataPoint(1, 1),
                               new DataPoint(12, 6)
-                              //new DataPoint(Integer.valueOf(firstInput_1), Integer.valueOf(secondInput_1)),
-                              //new DataPoint(Integer.valueOf(firstInput_2), Integer.valueOf(secondInput_2)),
-                              //new DataPoint(Integer.valueOf(firstInput_3), Integer.valueOf(secondInput_3)),
-                              //new DataPoint(Integer.valueOf(firstInput_4), Integer.valueOf(secondInput_4))
                       });
                       graph.addSeries(series);
+
+                      series.resetData(new DataPoint[] {new DataPoint(0, 0), new DataPoint(5, 5)});*/
                     } catch (IllegalArgumentException e) {
                       Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    catch (NullPointerException e) {
+                      // something to handle the NPE.
                     }
                   } catch (JSONException e) {
                     //e.printStackTrace();
