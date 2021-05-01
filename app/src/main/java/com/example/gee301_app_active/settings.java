@@ -96,10 +96,10 @@ public class settings extends AppCompatActivity {
                                         String body = cS.ResponseBody.get(0);
                                         JSONObject obj = new JSONObject(body);
                                         // get names
-                                        String firstname = obj.getString("firstname");
-                                        String lastname = obj.getString("lastname");
+                                        String name = obj.getString("name");
+                                        //String lastname = obj.getString("lastname");
                                         // set name in TextView's
-                                        first.setText("Hello, " + firstname + " " + lastname + ".");
+                                        first.setText("Hello, " + name);
                                         System.out.println("Data Retrieved!");
                                         System.out.println("Data: " + cS.ResponseBody);
                                     } catch (JSONException e) {

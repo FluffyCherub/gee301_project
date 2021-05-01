@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         openFragment(HomeFragment.newInstance("", ""));
 
         //loop to check alerts
-        timer = new CountDownTimer(60000, 20) {
+        timer = new CountDownTimer(5000, 20) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
@@ -105,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-    public void openDialog(String error) {
+    public void openDialog(String error, String type) {
         //ErrorDialog dialog = new ErrorDialog();
-        ErrorDialog dialog = ErrorDialog.newInstance(error);
+        ErrorDialog dialog = ErrorDialog.newInstance(error, type);
         dialog.show(getSupportFragmentManager(), "dialog");
     }
 
@@ -134,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 final Thread cS_worker = new Thread(cS);
 
                 final View view = findViewById(R.id.activity_main);
-                final Snackbar connecting = Snackbar.make(view, "Connecting... ", Snackbar.LENGTH_LONG).setAction("Action", null);
+                //final Snackbar connecting = Snackbar.make(view, "Connecting... ", Snackbar.LENGTH_LONG).setAction("Action", null);
                 new Thread(){
                     public void run(){
-                        connecting.show();
+                        //connecting.show();
                         try{
                             cS_worker.start();
                             cS_worker.join();
@@ -146,11 +147,7 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("GENERAL EXCEPTION");
                             e.printStackTrace(System.out);
                         }
-                        connecting.dismiss();
-
-                        if(cS.ResponseCode == 200){
-                            System.out.println("YEET");
-                        }
+                        //connecting.dismiss();
 
                         if(cS.status == true && cS.ResponseCode == 200){
                             runOnUiThread(new Runnable() {
@@ -160,6 +157,31 @@ public class MainActivity extends AppCompatActivity {
                                         // get JSONObject from JSON file
                                         String message = cS.ResponseMessage;
                                         String body = cS.ResponseBody.get(0);
+
+                                        // get names
+                                        try{
+                                            JSONObject obj = new JSONObject(body);
+                                            String hr = obj.getString("hr");
+                                            //String fallen = obj.getString("fallen");
+                                            Integer fallen = obj.getInt("fallen");
+                                            //int fallen = Integer.parseInt(fall);
+                                            if(fallen == 1 && (hr == "low"|| hr == "high")){
+                                                openDialog("Patient has fallen and heart rate is erratic.", "both");
+                                            }
+                                            else {
+                                                if (fallen == 1) {
+                                                    openDialog("Patient has fallen.", "fallen");
+                                                } else if (hr == "high") {
+                                                    openDialog("Patient's heart rate is too high.", "hr");
+                                                } else if (hr == "low") {
+                                                    openDialog("Patient's heart rate is too low.", "hr");
+                                                }
+                                            }
+
+                                        } catch (JSONException e) {
+                                            //e.printStackTrace();
+                                        }
+
                                         System.out.println("Message Retrieved: "+message);
                                         System.out.println("Body Retrieved: "+body);
                                     } catch (Exception e) {

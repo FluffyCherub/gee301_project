@@ -147,10 +147,10 @@ public class HomeFragment extends Fragment {
                     String body = cS.ResponseBody.get(0);
                     JSONObject obj = new JSONObject(body);
                     // get names
-                    //String firstname = obj.getString("firstname");
+                    String name = obj.getString("name");
                     //String lastname = obj.getString("lastname");
                     // set name in TextView's
-                    //first.setText("Hello, "+lastname+".");
+                    first.setText("Hello, "+name+".");
                     System.out.println("Data Retrieved!");
                     System.out.println("Data: "+cS.ResponseBody);
                   } catch (JSONException e) {
