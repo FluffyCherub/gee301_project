@@ -198,7 +198,9 @@ public class HomeFragment extends Fragment {
         new Thread(){
           public void run(){
             final TextView first = (TextView) view.findViewById(R.id.textview_first);
-            //final GraphView graph = (GraphView) view.findViewById(R.id.graph);
+
+            // -------------------- Graph Stuff Start ------------------------------
+            final GraphView graph = (GraphView) view.findViewById(R.id.graph);
             /*LineGraphSeries <DataPoint> series = new LineGraphSeries<>();
             graph.addSeries(series); */
 
@@ -262,7 +264,7 @@ public class HomeFragment extends Fragment {
                     //System.out.println("Temperature: "+temp+". Date: "+date);
 
                     try {
-                      /*
+// -------------------- More Graph Stuff ------------------------------
                       graph.setVisibility(View.VISIBLE);
                       LineGraphSeries <DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                               new DataPoint(1, 1),
@@ -270,7 +272,7 @@ public class HomeFragment extends Fragment {
                       });
                       graph.addSeries(series);
 
-                      series.resetData(new DataPoint[] {new DataPoint(0, 0), new DataPoint(5, 5)});*/
+                      series.resetData(new DataPoint[] {new DataPoint(0, 0), new DataPoint(5, 5)});
                     } catch (IllegalArgumentException e) {
                       Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
